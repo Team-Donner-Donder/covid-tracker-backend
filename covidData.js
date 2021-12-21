@@ -8,8 +8,8 @@ async function handleGetData(req, res) {
     const url = `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=98118&daysInPast=7`;
     const resultData = await axios.get(url);
 
-    const responseData = resultData.data;
-    console.log(resultData.data.counties[0].historicData)
+    const responseData = resultData.data.counties[0].historicData;
+    console.log(responseData)
     //returns "date", "deathCt", "positiveCt"
     res.status(200).send(responseData);
 
