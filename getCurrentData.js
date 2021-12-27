@@ -3,8 +3,10 @@
 const axios = require("axios");
 
 async function getCurrentData(req, res) {
-  let state = req.query.state;
-  
+
+  let state = req.query.state
+  let date = req.query.date
+
   let options = {
     method: 'GET',
     url: 'https://covid-19-statistics.p.rapidapi.com/reports',
@@ -13,7 +15,7 @@ async function getCurrentData(req, res) {
       iso: 'USA',
       region_name: 'US',
       q: `US ${state}`,
-      date: '2021-12-16'
+      date: date //YYYY-MM-DD
     },
     headers: {
       'x-rapidapi-host': 'covid-19-statistics.p.rapidapi.com',

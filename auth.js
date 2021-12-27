@@ -24,4 +24,5 @@ function verifyUser(req, err) {
   }
 }
 
+
 module.exports = verifyUser;
