@@ -33,13 +33,24 @@ app.post('/data', handleNewData);
 app.delete('/data/:id', handleDelete)
 
 function handleGetUser(req, res) {
-  verifyUser(req, (err, user) => {
+  verifyUser(req, async (err, user) => {
     if (err) {
+      console.error(err)
       res.send("Invalid Token");
     } else {
-      res.send(user);
+      try {
+      const dataDB =  await Data.find(user.email);
+      if (dataDB.length > 0) {
+        res.status(200).send(dataDB);
+      } else {
+        res.status(404).send('oops');
+      }
+      } catch (e) {
+        console.error(e);
+      res.status(500).send('Server Error');
     }
-  });
+  }
+});
 }
 
 async function handleDelete(req, res) {
