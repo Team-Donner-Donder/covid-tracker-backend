@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const dataSchema = new Schema ({
-  date: date,
-  confirmed: int,
-  deaths: int,
-  last_update: date,
+  date: String,
+  confirmed: Number,
+  deaths: Number,
+  last_update: String,
+  email: String,
 });
 
 const Data = mongoose.model('Data', dataSchema);
 
-module.exports = Book;
+module.exports = Data;
