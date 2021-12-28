@@ -25,19 +25,19 @@ async function seed() {
   await Data.create({
     date: '2021-12-23',
     confirmed: 4234,
-    deaths: 430,
+    deaths: 321,
     last_update: '2021-12-24 04:21:34',
     email: 'milsapmichael@gmail.com',
-    province: 'Washington'
+    province: 'California'
   })
 
   await Data.create({
     date: '2021-12-23',
     confirmed: 4234,
-    deaths: 430,
+    deaths: 264,
     last_update: '2021-12-24 04:21:34',
     email: 'milsapmichael@gmail.com',
-    province: 'Washington'
+    province: 'New York'
   })
 
 

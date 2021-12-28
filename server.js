@@ -36,15 +36,15 @@ app.get("/test", (request, response) => {
 app.get("/", handleGetUser);
 
 app.post('/data', handleNewData);
-app.delete('/data/:id', handleDelete)
+app.delete('/mongoData/:id', handleDelete)
 
 function handleGetUser(req, res) {
 
   verifyUser(req, async (err, user) => {
     // let authUser = {}
-    // if (req.query.email) {
-    //   authUser = (req.query.email === user.email)
-    // }
+    if (req.query.email) {
+      authUser = (req.query.email === user.email)
+    }
     let pleasework = {}
     if (err) {
       console.error(err)
@@ -62,15 +62,21 @@ function handleGetUser(req, res) {
         res.status(500).send('Server Error');
       }
     }
+    getMongoData();
+    console.log(getMongoData());
   });
 }
 
 async function handleDelete(req, res) {
-
   const { id } = req.params;
+  // console.log('id' + id)
+  
   const { email } = req.query;
+  // console.log('email ' + email);
   try {
-    const data = await Data.findOne({ _id: id, email: user.email });
+    const data = await Data.findOne({ _id: id, email: email });
+
+    
     if (!data) res.status(400).send("Could not delete data");
     else {
       await Book.findByIdAndDelete(id);
@@ -78,7 +84,8 @@ async function handleDelete(req, res) {
     }
   } catch (e) {
     console.error(e);
-    res.status(500).send("server error");
+    console.log(e.message)
+    res.status(500).send("cannot delete. server error");
   }
 }
 
@@ -107,6 +114,7 @@ async function handleNewData(req, res) {
 
 async function getMongoData(req, res) {
   let emailFromClient = {}
+  console.log(emailFromClient)
   if (req.query.email) {
     emailFromClient.email = req.query.email
   }
