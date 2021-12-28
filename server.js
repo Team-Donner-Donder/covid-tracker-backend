@@ -35,8 +35,8 @@ app.get("/test", (request, response) => {
 });
 app.get("/", handleGetUser);
 
-app.post('/data', handleNewData);
-app.delete('/data/:id', handleDelete)
+app.post('/mongoData', handleNewData);
+app.delete('/mongoData/:id', handleDelete)
 
 function handleGetUser(req, res) {
 
@@ -69,17 +69,14 @@ async function handleDelete(req, res) {
 
   const { id } = req.params;
   const { email } = req.query;
-  try {
-    const data = await Data.findOne({ _id: id, email: user.email });
-    if (!data) res.status(400).send("Could not delete data");
-    else {
-      await Book.findByIdAndDelete(id);
-      res.status(200).send("delete success");
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).send("server error");
+  try {   
+    await Data.findByIdAndDelete(id);
+    res.status(204).send('city deleted');
+    console.log(id);
+  } catch (error) {
+    res.status(500).send('unable to delete: server side error');
   }
+
 }
 
 async function handleNewData(req, res) {
