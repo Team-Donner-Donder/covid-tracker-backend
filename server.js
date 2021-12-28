@@ -72,7 +72,7 @@ async function handleDelete(req, res) {
   try {   
     await Data.findByIdAndDelete(id);
     res.status(204).send('city deleted');
-    console.log(id);
+    
   } catch (error) {
     res.status(500).send('unable to delete: server side error');
   }
@@ -80,11 +80,19 @@ async function handleDelete(req, res) {
 }
 
 async function handleNewData(req, res) {
-  // console.log(req.body);
+  console.log('handlenewdata function ' + {body: req.body});
 
   const { email } = req.query;
   try {
-    const newData = await Data.create({ ...req.body, email });
+    const newData = await Data.create({ 
+      date: req.body.date,
+      confirmed: req.body.confirmed, 
+      province: req.body.region.province,
+      last_update: req.body.last_update,
+    deaths: req.body.deaths,
+    
+  });
+    console.log(newData + ' new data ')
     res.status(200).send(newData);
   } catch (e) {
     res.status(500).send("Server Error, try again");
@@ -111,7 +119,7 @@ async function getMongoData(req, res) {
     const data = await Data.find(emailFromClient)
     if (data.length > 0) {
       res.status(200).send(data);
-      console.log(data);
+      // console.log(data);
     } else {
       res.status(404).send('nothing found');
     }
