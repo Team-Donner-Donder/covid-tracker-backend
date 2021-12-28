@@ -23,10 +23,13 @@ db.once('open', function () {
   console.log('Mongoose is connected')
 });
 mongoose.connect(process.env.DB_URL)
+
+
 app.use(cors());
 app.use(express.json());
 app.get("/covidData", covidData);
 app.get("/currentData", getCurrentData);
+app.get('/mongoData', getMongoData)
 app.get("/test", (request, response) => {
   response.send("test request received");
 });
@@ -36,13 +39,19 @@ app.post('/data', handleNewData);
 app.delete('/data/:id', handleDelete)
 
 function handleGetUser(req, res) {
+
   verifyUser(req, async (err, user) => {
+    // let authUser = {}
+    // if (req.query.email) {
+    //   authUser = (req.query.email === user.email)
+    // }
+    let pleasework = {}
     if (err) {
       console.error(err)
       res.send("Invalid Token");
     } else {
       try {
-        const dataDB = await Data.find(user.email);
+        const dataDB = await Data.find(pleasework);
         if (dataDB.length > 0) {
           res.status(200).send(dataDB);
         } else {
@@ -93,6 +102,24 @@ async function handleNewData(req, res) {
         res.send(user);
       }
     });
+  }
+}
+
+async function getMongoData(req, res) {
+  let emailFromClient = {}
+  if (req.query.email) {
+    emailFromClient.email = req.query.email
+  }
+  try {
+    const data = await Data.find(emailFromClient)
+    if (data.length > 0) {
+      res.status(200).send(data);
+      console.log(data);
+    } else {
+      res.status(404).send('nothing found');
+    }
+  } catch (e) {
+    res.status(500)
   }
 }
 
