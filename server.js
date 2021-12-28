@@ -35,16 +35,16 @@ app.get("/test", (request, response) => {
 });
 app.get("/", handleGetUser);
 
-app.post('/data', handleNewData);
+app.post('/mongoData', handleNewData);
 app.delete('/mongoData/:id', handleDelete)
 
 function handleGetUser(req, res) {
 
   verifyUser(req, async (err, user) => {
     // let authUser = {}
-    if (req.query.email) {
-      authUser = (req.query.email === user.email)
-    }
+    // if (req.query.email) {
+    //   authUser = (req.query.email === user.email)
+    // }
     let pleasework = {}
     if (err) {
       console.error(err)
@@ -62,39 +62,37 @@ function handleGetUser(req, res) {
         res.status(500).send('Server Error');
       }
     }
-    getMongoData();
-    console.log(getMongoData());
   });
 }
 
 async function handleDelete(req, res) {
-  const { id } = req.params;
-  // console.log('id' + id)
-  
-  const { email } = req.query;
-  // console.log('email ' + email);
-  try {
-    const data = await Data.findOne({ _id: id, email: email });
 
+  const { id } = req.params;
+  const { email } = req.query;
+  try {   
+    await Data.findByIdAndDelete(id);
+    res.status(204).send('city deleted');
     
-    if (!data) res.status(400).send("Could not delete data");
-    else {
-      await Book.findByIdAndDelete(id);
-      res.status(200).send("delete success");
-    }
-  } catch (e) {
-    console.error(e);
-    console.log(e.message)
-    res.status(500).send("cannot delete. server error");
+  } catch (error) {
+    res.status(500).send('unable to delete: server side error');
   }
+
 }
 
 async function handleNewData(req, res) {
-  // console.log(req.body);
+  console.log('handlenewdata function ' + {body: req.body});
 
   const { email } = req.query;
   try {
-    const newData = await Data.create({ ...req.body, email });
+    const newData = await Data.create({ 
+      date: req.body.date,
+      confirmed: req.body.confirmed, 
+      province: req.body.region.province,
+      last_update: req.body.last_update,
+    deaths: req.body.deaths,
+    
+  });
+    console.log(newData + ' new data ')
     res.status(200).send(newData);
   } catch (e) {
     res.status(500).send("Server Error, try again");
@@ -114,7 +112,6 @@ async function handleNewData(req, res) {
 
 async function getMongoData(req, res) {
   let emailFromClient = {}
-  console.log(emailFromClient)
   if (req.query.email) {
     emailFromClient.email = req.query.email
   }
@@ -122,7 +119,7 @@ async function getMongoData(req, res) {
     const data = await Data.find(emailFromClient)
     if (data.length > 0) {
       res.status(200).send(data);
-      console.log(data);
+      // console.log(data);
     } else {
       res.status(404).send('nothing found');
     }
