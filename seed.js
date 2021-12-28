@@ -28,7 +28,7 @@ async function seed() {
     deaths: 430,
     last_update: '2021-12-24 04:21:34',
     email: 'milsapmichael@gmail.com',
-    province: 'Washington'
+    province: 'california'
   })
 
   await Data.create({
@@ -40,7 +40,23 @@ async function seed() {
     province: 'Washington'
   })
 
+  await Data.create({
+    date: '2021-12-23',
+    confirmed: 4234,
+    deaths: 430,
+    last_update: '2021-12-24 04:21:34',
+    email: 'josematthewmiguel@gmail.com',
+    province: 'california'
+  })
 
+  await Data.create({
+    date: '2021-12-23',
+    confirmed: 4234,
+    deaths: 430,
+    last_update: '2021-12-24 04:21:34',
+    email: 'josematthewmiguel@gmail.com',
+    province: 'Washington'
+  })
 }
     mongoose.disconnect();
 
