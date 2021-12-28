@@ -8,6 +8,7 @@ const dataSchema = new Schema ({
   deaths: Number,
   last_update: String,
   email: String,
+  province: String
 });
 
 const Data = mongoose.model('Data', dataSchema);

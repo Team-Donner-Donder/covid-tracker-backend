@@ -24,11 +24,23 @@ async function seed() {
 
   await Data.create({
     date: '2021-12-23',
-    confirmed: 2365,
-    deaths: 452,
+    confirmed: 4234,
+    deaths: 430,
     last_update: '2021-12-24 04:21:34',
-    email: 'josematthewmiguel@gmail.com'
+    email: 'milsapmichael@gmail.com',
+    province: 'Washington'
   })
+
+  await Data.create({
+    date: '2021-12-23',
+    confirmed: 4234,
+    deaths: 430,
+    last_update: '2021-12-24 04:21:34',
+    email: 'milsapmichael@gmail.com',
+    province: 'Washington'
+  })
+
+
 }
     mongoose.disconnect();
 

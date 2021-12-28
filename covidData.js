@@ -3,9 +3,10 @@
 const axios = require("axios");
 
 async function handleGetData(req, res) {
-
+  let zipcode = req.query.zipcode
+  let date = req.query.date
   try {
-    const url = `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=98118&daysInPast=7`;
+    const url = `https://localcoviddata.com/covid19/v1/cases/newYorkTimes?zipCode=${zipcode}&daysInPast=7`;
     const resultData = await axios.get(url);
 
     const responseData = resultData.data.counties[0].historicData;
