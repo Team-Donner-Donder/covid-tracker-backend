@@ -129,4 +129,3 @@ async function getMongoData(req, res) {
 }
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
-
